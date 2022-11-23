@@ -1,0 +1,39 @@
+.sign-up {
+  height: 100vh;
+  display: flex;
+}
+
+.left__sign-up {
+  background-color: lightblue;
+  height: 100%;
+  width: 500px;
+  padding: 120px 0px 0px 45px;
+}
+
+.right__sign-up {
+  width: calc(100% - 500px);
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.step-bars {
+  display: flex;
+  gap: 8px;
+  margin-top: 140px;
+}
+
+.step-bars div {
+  height: 8px;
+  width: 82px;
+  border-radius: 20px;
+}
+
+.color-green {
+  background-color: var(--bar-green);
+}
+
+.color-gray {
+  background-color: var(--bar-gray);
+}

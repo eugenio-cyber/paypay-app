@@ -1,0 +1,68 @@
+.charges-main {
+    display: flex;
+    flex-direction: column;
+}
+
+.charges-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+
+    height: 34px;
+    padding: 0 50px 0 64px;
+    margin-bottom: 30px;
+}
+
+.charges-title {
+    display: flex;
+    align-items: center;
+    gap: 13px;
+}
+
+.charges-title__text {
+    font-family: 'Montserrat';
+    font-style: normal;
+    font-weight: 600;
+    font-size: 26px;
+    line-height: 130%;
+
+    color: #3F3F55;
+}
+
+.charges-title__img {
+    width: 32px;
+}
+
+.charges-action {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.charges-action__input {
+    height: 40px;
+    width: 318px;
+    padding: 7px 8px;
+    border-radius: 10px;
+    border: none;
+    box-shadow: 0 0 4px 0 rgba(218, 1, 117, 0.05);
+
+    background: #FFFFFF;
+}
+
+.charges-action__img {
+    width: 40px;
+}
+
+.charges-action__icon {
+    position: absolute;
+    right: 10px;
+
+    width: 24px;
+}
+
+.charges-table {
+    padding: 0 50px 0 64px;
+}

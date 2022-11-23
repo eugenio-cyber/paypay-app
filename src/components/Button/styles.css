@@ -1,0 +1,10 @@
+.button--purple {
+  font-family: 'Nunito', sans-serif !important;
+  border-radius: 10px !important;
+
+  background-color: var(--purple) !important;
+}
+
+.button--purple:hover {
+  opacity: 0.9;
+}

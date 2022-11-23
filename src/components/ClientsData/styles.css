@@ -1,0 +1,48 @@
+.first-headline img {
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.headlines {
+	color: #3f3f55 !important;
+	font-family: "Nunito", sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+}
+
+.MuiTableContainer-root {
+	display: flex;
+	width: 100%;
+	min-height: 250px;
+	max-height: 375px;
+	padding: 5px;
+	overflow-y: auto;
+}
+
+.data-line {
+	color: #747488 !important;
+	font-family: "Nunito", sans-serif !important;
+}
+
+.data-line a {
+	text-decoration: none !important;
+	color: #747488 !important;
+}
+
+.name-column:hover {
+	cursor: pointer;
+	text-decoration: underline;
+}
+
+.info-red {
+	color: #971d1d !important;
+}
+
+.info-green {
+	color: #1fa7af !important;
+}
+
+.charge-icon:hover {
+	cursor: pointer;
+	transform: scale(1.1);
+}

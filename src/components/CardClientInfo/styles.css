@@ -1,0 +1,27 @@
+.card-header {
+	width: 98%;
+	display: flex;
+	justify-content: space-between;
+	flex-direction: row;
+	align-items: center;
+}
+.card-buttons {
+	all: unset;
+	display: flex;
+	justify-content: center;
+	width: 240px;
+	height: 33px;
+	cursor: pointer;
+	border-radius: 10px;
+	background-color: none;
+	overflow: hidden;
+}
+
+.card-buttons:hover {
+	transform: scale(1.02);
+}
+
+.card-buttons img {
+	width: 262px;
+	height: 33px;
+}

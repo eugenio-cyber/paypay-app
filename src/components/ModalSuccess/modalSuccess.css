@@ -1,0 +1,20 @@
+.card-success {
+    background-color: #F0F0F5;
+    height: 312px;
+    width: 600px;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.success-imgs {
+    position: relative;
+    margin-bottom: 25px;
+}
+
+.checked-img {
+    position: absolute;
+    right: 25%;
+    bottom: 35%;
+}

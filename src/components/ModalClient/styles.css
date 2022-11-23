@@ -1,0 +1,65 @@
+.container-modal {
+	background: rgba(145, 154, 150, 0.3);
+	width: 100%;
+	min-height: 100%;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+.add-card {
+	background-color: #ffffff;
+	border-radius: 30px;
+	min-height: 600px;
+	width: 550px;
+	padding-left: 40px;
+	position: relative;
+}
+
+.head-card {
+	color: #3f3f55;
+	display: flex;
+	gap: 15px;
+	font-family: "Montserrat", sans-serif;
+	margin: 30px 0px 20px 0px;
+}
+
+.form-modal {
+	display: flex;
+	flex-direction: column;
+	gap: 15px;
+}
+
+.inputs-numbers {
+	display: flex;
+	align-items: center;
+	gap: 40px;
+}
+
+.btn-area {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	margin-top: 40px;
+	padding: 0px 47px 35px 0px;
+}
+
+.btn-cancel {
+	background-color: #f8f8f9;
+	border-color: #dedee9;
+	border-radius: 10px;
+	color: #0e8750;
+	font-family: "Nunito", sans-serif;
+	font-size: 18px;
+	height: 38px;
+	width: 220px;
+	margin-right: 25px;
+}
+
+.btn-cancel:hover {
+	cursor: pointer;
+	opacity: 0.9;
+}

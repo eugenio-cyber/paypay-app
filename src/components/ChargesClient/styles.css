@@ -1,0 +1,56 @@
+.first-headline img {
+	cursor: pointer;
+	margin-right: 10px;
+}
+
+.headlines {
+	color: #3f3f55 !important;
+	font-family: "Nunito", sans-serif !important;
+	font-size: 16px !important;
+	font-weight: 700 !important;
+}
+
+.MuiTableContainer-root-1 {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	width: 102%;
+	min-height: 200px;
+	max-height: 278px !important;
+	overflow-y: auto;
+	border: 1px solid #e0e0e0;
+}
+
+.icons-order-charges {
+	text-align: left;
+	display: flex;
+	height: auto;
+	column-gap: 0.8rem;
+	flex-direction: row;
+	align-items: center;
+	justify-content: flex-start;
+}
+
+.icons-order-charges img {
+	padding: 2px;
+}
+
+.icons-actions-charges {
+	display: flex;
+	height: auto;
+	flex-direction: row;
+	justify-content: space-evenly;
+	align-items: flex-end;
+	gap: 15px;
+	width: 100%;
+}
+
+.icons-actions-charges img {
+	width: 26px;
+	height: 29px;
+	cursor: pointer;
+}
+
+.icons-actions-charges img:hover {
+	transform: scale(1.1);
+}

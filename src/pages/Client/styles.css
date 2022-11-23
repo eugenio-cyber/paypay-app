@@ -1,0 +1,17 @@
+.MuiTypography-root {
+	color: hsla(240, 9%, 48%, 1);
+}
+.MuiBreadcrumbs-li {
+	color: rgb(161, 161, 163);
+	text-decoration: none;
+}
+.navlink {
+	text-decoration: none;
+	color: #0e8750;
+	text-decoration: none;
+}
+.navlink:hover {
+	color: #0e8750;
+	font-weight: 700;
+	text-decoration: none;
+}

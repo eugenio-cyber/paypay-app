@@ -1,0 +1,54 @@
+.input {
+  display: flex;
+  flex-direction: column;
+  position: relative;
+}
+
+.eyeIcon {
+  width: 20px;
+  cursor: pointer;
+  position: absolute;
+  right: 15px;
+  bottom: 15px;
+  z-index: 2;
+}
+
+.input__top {
+  display: flex;
+  justify-content: space-between;
+}
+
+.input__label {
+  padding-bottom: 6px;
+
+  font-family: 'Nunito', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 20px;
+
+  color: var(--grey);
+}
+
+.forget-password {
+  font-family: 'Nunito', sans-serif;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 130%;
+  text-decoration: underline;
+
+  color: var(--purple);
+}
+
+/* .input-field {
+  all: unset;
+} */
+
+.MuiInputBase-root input {
+  height: 12px;
+}
+
+.MuiInputBase-root {
+  border-radius: 8px !important;
+}

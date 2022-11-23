@@ -1,0 +1,99 @@
+.card-charges {
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+
+	width: 360px;
+}
+
+.card-charges__top {
+	display: flex;
+	justify-content: center;
+	gap: 46px;
+
+	border-radius: 30px;
+	padding: 23px 0;
+}
+
+.card-charges__text {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+}
+
+.card-charges__title {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 18px;
+	line-height: 130%;
+
+	color: var(--c-grey-2);
+}
+
+.card-charges__subtitle {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 24px;
+	line-height: 130%;
+
+	color: var(--c-grey-2);
+}
+
+.card-charges__content {
+	border-radius: 30px;
+	box-shadow: 0px 4px 4px rgba(172, 217, 197, 0.25);
+
+	background: var(--c-white);
+}
+
+.card-charges__header {
+	display: flex;
+	align-items: center;
+	justify-content: flex-start;
+	gap: 40px;
+
+	height: 58px;
+	padding-left: 56px;
+	margin-bottom: 8px;
+	border-bottom: 1px solid #eff0f7;
+}
+
+.card-charges__topic {
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 600;
+	font-size: 18px;
+	line-height: 130%;
+
+	color: var(--c-grey-2);
+}
+
+.card-charges__number {
+	border-radius: 8px;
+	padding: 0 15px;
+
+	font-family: "Montserrat";
+	font-style: normal;
+	font-weight: 700;
+	font-size: 16px;
+	line-height: 130%;
+}
+
+.card-charges__more {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+
+	height: 48px;
+
+	font-family: "Nunito";
+	font-style: normal;
+	font-weight: 400;
+	font-size: 18px;
+	line-height: 130%;
+	text-decoration-line: underline;
+
+	color: var(--purple);
+}
