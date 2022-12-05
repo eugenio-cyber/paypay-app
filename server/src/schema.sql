@@ -1,0 +1,39 @@
+CREATE DATABASE billings;
+
+DROP TABLE IF EXISTS charges;
+DROP TABLE IF EXISTS clients;
+DROP TABLE IF EXISTS users;
+
+CREATE TABLE IF NOT EXISTS users(
+  id SERIAL  PRIMARY KEY,
+  nome TEXT NOT NULL,
+  cpf TEXT DEFAULT '00000000000',
+  email TEXT UNIQUE NOT NULL,
+  senha TEXT NOT NULL,
+  telefone TEXT DEFAULT '99900000000' 
+);
+
+CREATE TABLE IF NOT EXISTS clients (
+    id SERIAL PRIMARY KEY,
+ 	nome TEXT NOT NULL,
+  	email TEXT NOT NULL UNIQUE,
+  	cpf TEXT NOT NULL DEFAULT '000 000 000 00',
+  	telefone TEXT NOT NULL DEFAULT '00000000',
+  	cep INTEGER,
+  	logradouro TEXT,
+  	complemento TEXT,
+  	bairro TEXT,
+  	cidade TEXT,
+  	estado TEXT,
+	status BOOLEAN NOT NULL DEFAULT true,
+    usuario_id INTEGER REFERENCES users(id) DEFAULT 1
+);
+
+CREATE TABLE IF NOT EXISTS charges(
+	id SERIAL PRIMARY KEY,
+    client_id INTEGER NOT NULL REFERENCES clients(id),
+  	descricao TEXT NOT NULL,
+  	valor BIGINT NOT NULL DEFAULT 0,
+    vencimento DATE NOT NULL DEFAULT CURRENT_DATE,
+    status TEXT NOT NULL DEFAULT 'Pendente'
+);
