@@ -12,7 +12,7 @@
 
 ## 🔗 Quer acessar o projeto?
 
-[Clique aqui para ver](https://pacode-team.netlify.app/)
+Clique [aqui](https://pacode-team.netlify.app/) para acessar o projeto.
 
 ## 🏹 Qual o objetivo do projeto?
 
