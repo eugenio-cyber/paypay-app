@@ -1,8 +1,6 @@
 <h3 align="center">
  PayPay
 </h3>
-  
-<br>
 
 <p align="center">
   <img src="https://img.shields.io/badge/status-em%20andamento-orange?style=for-the-badge"/>
