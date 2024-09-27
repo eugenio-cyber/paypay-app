@@ -63,13 +63,13 @@ const getUserProfile = async (req, res) => {
 const createUser = async (req, res) => {
   const data = req.body;
   const salts = await bcrypt.genSalt(10);
+  const hash = await bcrypt.hash(data.password, salts);
+  data.password = hash;
 
   try {
-    const hash = await bcrypt.hash(data.password, salts);
     const result = await queryBuilder("users").insert(data).returning("*");
     const { password: _, ...user } = result[0];
 
-    data.password = hash;
     return messages(res, 201, "Cadastro realizado com sucesso!");
   } catch (error) {
     return messages(res, 400, "Erro inesperado: " + error.message);
