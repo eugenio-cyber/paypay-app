@@ -16,7 +16,7 @@ const Login = () => {
     navigate,
     warning,
     setWarning,
-    setUsuario,
+    setUser,
   } = useContext(UserContext);
 
   const handleSubmit = async (e) => {
@@ -48,17 +48,15 @@ const Login = () => {
       });
 
       const { token, user } = response.data;
-      setUsuario(user);
-      setItem("token", token);
 
-      setItem("nome", user.nome);
+      setUser(user);
+      setItem("token", token);
+      setItem("name", user.name);
 
       const localWarning = { ...warning };
-
       localWarning.active = true;
       localWarning.type = "success";
       localWarning.message = "Login feito com sucesso!";
-
       setWarning({ ...localWarning });
 
       setTimeout(() => {

@@ -41,10 +41,6 @@ const Home = () => {
     currentUser,
     setPanel,
     panel,
-    // eslint-disable-next-line
-    warning,
-    // eslint-disable-next-line
-    setWarning,
     getItem,
     getUser,
   } = useContext(UserContext);
@@ -96,16 +92,10 @@ const Home = () => {
     return;
   };
 
-  function init() {
+  useEffect(() => {
     getUser();
     handleLoadChargesPanel();
-    return;
-  }
-
-  useEffect(() => {
-    init();
-    return;
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    console.log(currentUser);
   }, []);
 
   useEffect(() => {}, [panel, setPanel]);
@@ -116,7 +106,7 @@ const Home = () => {
         <h1 className='home-header__title'>Resumo das cobranças</h1>
         <div className='header__user'>
           <img className='header__avatar' src={Avatar} alt='Avatar' />
-          <span className='header__username'>{currentUser.nome}</span>
+          <span className='header__username'>{currentUser.name}</span>
           <img
             className='cursor-pointer'
             src={ArrowDown}

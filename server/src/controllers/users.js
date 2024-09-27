@@ -52,7 +52,7 @@ const getUserProfile = async (req, res) => {
   try {
     const profile = await queryBuilder("users")
       .where({ id })
-      .select("id", "name", "cpf", "email", "telefone")
+      .select("id", "name", "cpf", "email", "phone")
       .first();
     return messages(res, 200, profile);
   } catch (error) {

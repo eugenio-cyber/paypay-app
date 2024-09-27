@@ -166,8 +166,8 @@ export default function TheRoutes() {
       });
 
       setCurrentUser({ ...user });
-      removeUsuario("usuario");
-      setUsuario({ ...user });
+      removeUser("user");
+      setUser({ ...user });
     } catch (error) {
       const localWarning = { ...warning };
       localWarning.active = true;
@@ -207,7 +207,7 @@ export default function TheRoutes() {
   }
   const [statusClient, setStatusClient] = useState("");
   const [clientsList, setClientsList] = useState([]);
-  const [usuario, setUsuario, removeUsuario] = useLocalStorage("usuario", {});
+  const [user, setUser, removeUser] = useLocalStorage("user", {});
   const [order, setOrder] = useState(true);
 
   async function handleLoadChargesClient() {
@@ -256,7 +256,7 @@ export default function TheRoutes() {
         order,
         panel,
         removeCliente,
-        removeUsuario,
+        removeUser,
         setCharges,
         setClientsList,
         setCliente,
@@ -273,7 +273,7 @@ export default function TheRoutes() {
         setShowPopupCharge,
         setShowPopupDel,
         setShowPopupEdit,
-        setUsuario,
+        setUser,
         setViaCep,
         setWarning,
         showClients,
@@ -287,7 +287,7 @@ export default function TheRoutes() {
         setStatusClient,
         statusCharges,
         setStatusCharges,
-        usuario,
+        user,
         viaCep,
         warning,
         useLocalStorage,
