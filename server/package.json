@@ -4,8 +4,7 @@
   "description": "![](https://i.imgur.com/xG74tOh.png)",
   "main": "index.js",
   "scripts": {
-    "serve": "nodemon ./src/index.js",
-    "start": "node ./src/index.js"
+    "start": "nodemon --env-file=.env ./src/index.js"
   },
   "repository": {
     "type": "git",
