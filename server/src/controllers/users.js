@@ -37,7 +37,7 @@ const userLogin = async (req, res) => {
 
     const { password: _, ...user } = result;
 
-    const token = await jwt.sign(user, process.env.JWT_SECRET, {
+    const token = await jwt.sign(user, process.env.SUPABASE_JWT_SECRET, {
       expiresIn: "8h",
     });
 

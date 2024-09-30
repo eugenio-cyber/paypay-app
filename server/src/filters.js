@@ -15,7 +15,7 @@ const verifyLogin = async (req, res, next) => {
   const token = authorization.replace("Bearer ", "");
 
   try {
-    const decoded = await jwt.verify(token, process.env.JWT_SECRET);
+    const decoded = await jwt.verify(token, process.env.SUPABASE_JWT_SECRET);
     const { id } = decoded;
     const result = await queryBuilder("users")
       .select("*")
