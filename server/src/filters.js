@@ -63,20 +63,20 @@ const verifyOnCreateUser = async (req, res, next) => {
 
 const verifyOnUpdateUser = async (req, res, next) => {
   const { id } = req.user;
-  const dados = req.body;
-  const { cpf, email, senha } = dados;
+  const data = req.body;
+  const { cpf, email, password } = data;
   !id && messages(res, 400, "O ID é obrigatório");
-  !dados && messages(res, 400, "Informe os dados para atualização!");
+  !data && messages(res, 400, "Informe os dados para atualização!");
 
-  if (senha) {
+  if (password) {
     const schema = yup.object().shape({
-      senha: yup
+      password: yup
         .string()
         .min(6)
         .required("O campo senha tem que ter no mínimo 6 caracteres"),
     });
     try {
-      await schema.validate(dados);
+      await schema.validate(data);
     } catch (error) {
       return messages(res, 400, "Senha inválida!");
     }
@@ -88,10 +88,10 @@ const verifyOnUpdateUser = async (req, res, next) => {
         .string()
         .min(11)
         .max(14)
-        .required("CPF tem que ter no mínimo 11 e no máximo 14 digitos"),
+        .required("CPF tem que ter no mínimo 11 e no máximo 14 dígitos"),
     });
     try {
-      await schema.validate(dados);
+      await schema.validate(data);
     } catch (error) {
       return messages(res, 400, "CPF inválido!");
     }
@@ -124,7 +124,7 @@ const verifyOnUpdateUser = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return messages(res, 400, "Dados inválidos Filter User ! " + error.message);
+    return messages(res, 400, "Dados inválidos! " + error.message);
   }
 };
 
@@ -172,14 +172,12 @@ const verifyOnRegisterClient = async (req, res, next) => {
 };
 
 const verifyOnUpdateClient = async (req, res, next) => {
-  const { name, cpf, email, telefone } = req.body;
-
   if (!req.params) {
     return messages(res, 400, "O ID é obrigatório");
   }
 
   if (!req.body) {
-    return messages(res, 400, "Informe os dados para atualizaação! Filter");
+    return messages(res, 400, "Informe os dados para atualização!");
   }
   next();
 };

@@ -7,11 +7,12 @@ yup.setLocale(pt);
 
 const formatDateCharge = (charges) => {
   charges.forEach((charge) => {
-    const expirationDate = new Date(charge.vencimento);
+    const expirationDate = new Date(charge.due);
 
-    charge.vencimento = format(expirationDate, "dd/MM/yyyy");
-    charge.valor = (Number(charge.valor) / 100).toFixed(2);
+    charge.due = format(expirationDate, "dd/MM/yyyy");
+    charge.value = (Number(charge.value) / 100).toFixed(2);
   });
+
   return charges;
 };
 
