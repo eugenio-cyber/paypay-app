@@ -74,17 +74,18 @@ const CardChares = ({
               {list &&
                 list.map((item) => (
                   <TableRow
-                    key={item.ch_id}
+                    key={item.id}
                     sx={{
                       "&:last-child td, &:last-child th": {
                         border: 0,
+                        verticalAlign: "baseline",
                       },
                     }}
                   >
-                    <TableCell align='center'>{item.nome}</TableCell>
-                    <TableCell align='center'>{item.ch_id}</TableCell>
+                    <TableCell align='center'>{item.name}</TableCell>
+                    <TableCell align='center'>{item.id}</TableCell>
                     <TableCell align='center'>
-                      {toCurrency(item.valor)}
+                      {toCurrency(item.value)}
                     </TableCell>
                   </TableRow>
                 ))}

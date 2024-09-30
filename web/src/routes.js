@@ -53,11 +53,11 @@ export default function TheRoutes() {
   });
 
   const [panel, setPanel] = useState({
-    defaultings: {},
+    defaulting: {},
     legals: {},
-    pagos: {},
-    pendentes: {},
-    vencidos: {},
+    paid: {},
+    pending: {},
+    overdue: {},
   });
 
   const [formCharge, setFormCharge] = useState({

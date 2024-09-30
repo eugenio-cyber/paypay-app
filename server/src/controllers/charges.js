@@ -16,25 +16,24 @@ const formatDateCharge = (charges) => {
 };
 
 const registerCharge = async (req, res) => {
-  let { client_id, status, vencimento } = req.body;
+  let { client_id, status, due } = req.body;
   const schema = yup.object().shape({
     client_id: yup.number().required("O campo cliente é obrigatório"),
-    descricao: yup.string().required("O campo descrição é obrigatório"),
-    valor: yup.number().required("O campo valor é obrigatório"),
-    vencimento: yup.date().required("O campo data é obrigatório"),
+    description: yup.string().required("O campo descrição é obrigatório"),
+    value: yup.number().required("O campo valor é obrigatório"),
+    due: yup.date().required("O campo data é obrigatório"),
   });
 
-  if (status === "Pendente" || status === "Paga") {
-  } else {
-    return messages(res, 400, "O status deve ser apenas Pendente/Paga");
+  if (!["Pendente", "Paga"].includes(status)) {
+    return messages(res, 400, "O status deve ser apenas Pendente ou Paga");
   }
 
   if (status != "Paga") {
-    let dataVencimento = new Date(vencimento);
-    dataVencimento = dataVencimento.getTime();
-    const hoje = Date.now();
+    const today = Date.now();
+    let dueDate = new Date(due);
+    dueDate = dueDate.getTime();
 
-    if (dataVencimento < hoje) {
+    if (dueDate < today) {
       status = "Vencida";
     }
   }
@@ -58,7 +57,7 @@ const registerCharge = async (req, res) => {
     await updateUserStatus(client_id);
 
     if (!charge) {
-      return messages(res, 400, "não foi possivel cadastrar cobrança");
+      return messages(res, 400, "Não foi possível cadastrar cobrança");
     }
 
     return messages(res, 201, "Cobrança cadastrada com sucesso");
@@ -86,14 +85,14 @@ const filterCharges = async (req, res) => {
 
 const listCharges = async (req, res) => {
   try {
-    let allcharges = await queryBuilder("charges")
+    let allCharges = await queryBuilder("charges")
       .join("clients", "charges.client_id", "clients.id")
       .select("charges.*", "clients.name")
       .orderBy("charges.id", "desc");
 
-    allcharges = formatDateCharge(allcharges);
+    allCharges = formatDateCharge(allCharges);
 
-    return messages(res, 200, allcharges);
+    return messages(res, 200, allCharges);
   } catch (error) {
     return messages(res, 400, error.message);
   }
@@ -101,60 +100,51 @@ const listCharges = async (req, res) => {
 
 const panelCharges = async (_, res) => {
   try {
-    const paidTotal = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Paga" })
-      .sum("valor as total");
+    const paidTotal = await queryBuilder("charges")
+      .where({ status: "Paga" })
+      .sum("value as total");
 
-    const pendingTotal = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Pendente" })
-      .sum("valor as total");
+    const pendingTotal = await queryBuilder("charges")
+      .where({ status: "Pendente" })
+      .sum("value as total");
 
-    const overdueTotal = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Vencida" })
-      .sum("valor as total");
+    const overdueTotal = await queryBuilder("charges")
+      .where({ status: "Vencida" })
+      .sum("value as total");
 
-    const paidCount = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Paga" })
-      .count("* as total");
-
-    const pendingCount = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Pendente" })
-      .count("* as total");
-
-    const overdueCount = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Vencida" })
-      .count("* as total");
-
-    const paidList = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Paga" })
-      .select("*")
+    const paidList = await queryBuilder("charges")
+      .leftJoin("clients", "charges.client_id", "clients.id")
+      .where({ "charges.status": "Paga" })
+      .select("charges.*", "clients.name")
       .limit(4);
 
-    const pendingList = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Pendente" })
-      .select("*")
+    const pendingList = await queryBuilder("charges")
+      .leftJoin("clients", "charges.client_id", "clients.id")
+      .where({ "charges.status": "Pendente" })
+      .select("charges.*", "clients.name")
       .limit(4);
 
-    const overdueList = await queryBuilder("vw_paypay")
-      .where({ ch_status: "Vencida" })
-      .select("*")
+    const overdueList = await queryBuilder("charges")
+      .leftJoin("clients", "charges.client_id", "clients.id")
+      .where({ "charges.status": "Vencida" })
+      .select("charges.*", "clients.name")
       .limit(4);
 
     const panel = {
-      pagos: {
+      paid: {
         list: !paidList ? [] : paidList,
         total: !paidTotal[0].total ? 0 : paidTotal[0].total,
-        number: !paidCount[0].total ? 0 : paidCount[0].total,
+        number: !paidList ? 0 : paidList.length,
       },
-      pendentes: {
+      pending: {
         list: !pendingList ? [] : pendingList,
         total: !pendingTotal[0].total ? 0 : pendingTotal[0].total,
-        number: !pendingCount[0].total ? 0 : pendingCount[0].total,
+        number: !pendingList ? 0 : pendingList.length,
       },
-      vencidos: {
+      overdue: {
         list: !overdueList ? [] : overdueList,
         total: !overdueTotal[0].total ? 0 : overdueTotal[0].total,
-        number: !overdueCount[0].total ? 0 : overdueCount[0].total,
+        number: !overdueList ? 0 : overdueList.length,
       },
     };
     return messages(res, 200, panel);

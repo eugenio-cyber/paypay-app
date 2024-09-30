@@ -65,18 +65,19 @@ const CardClients = ({
             {rows &&
               rows.map((row) => (
                 <TableRow
-                  key={row.ch_id}
+                  key={row.id}
                   sx={{
                     "&:last-child td, &:last-child th": {
                       border: 0,
+                      verticalAlign: "baseline",
                     },
                   }}
                 >
                   <TableCell align='center' color='black'>
-                    {row.nome}
+                    {row.name}
                   </TableCell>
-                  <TableCell align='center'>{row.ch_id}</TableCell>
-                  <TableCell align='center'>{toCurrency(row.valor)}</TableCell>
+                  <TableCell align='center'>{row.id}</TableCell>
+                  <TableCell align='center'>{toCurrency(row.value)}</TableCell>
                 </TableRow>
               ))}
           </TableBody>

@@ -21,10 +21,13 @@ import api from "../../services/api";
 import { removeItem } from "../../utils/storage";
 
 function toCurrency(value) {
-  return (Number(value) / 100).toLocaleString("pt-BR", {
-    style: "currency",
-    currency: "BRL",
-  });
+  return (Number(value) / 100).toLocaleString(
+    "pt-BR",
+    {
+      style: "currency",
+      currency: "BRL",
+    } || "0,00"
+  );
 }
 
 function toPanel(value) {
@@ -45,7 +48,7 @@ const Home = () => {
     getUser,
   } = useContext(UserContext);
 
-  async function handleLoadChargesPanel() {
+  const handleLoadChargesPanel = async () => {
     try {
       const localCharges = await api.get("/panel/charges", {
         headers: {
@@ -59,22 +62,21 @@ const Home = () => {
         },
       });
 
-      const { pagos, pendentes, vencidos } = localCharges.data;
-      const { legals, defaultings } = localClients.data;
+      const { paid, pending, overdue } = localCharges.data;
+      const { legals, defaulting } = localClients.data;
 
       setPanel({
         ...panel,
-        pagos,
-        pendentes,
-        vencidos,
+        paid,
+        pending,
+        overdue,
         legals,
-        defaultings,
+        defaulting,
       });
     } catch (error) {
       console.log(error);
     }
-    return;
-  }
+  };
 
   const handleExit = () => {
     setShowOption(false);
@@ -95,7 +97,6 @@ const Home = () => {
   useEffect(() => {
     getUser();
     handleLoadChargesPanel();
-    console.log(currentUser);
   }, []);
 
   useEffect(() => {}, [panel, setPanel]);
@@ -141,39 +142,39 @@ const Home = () => {
           <CardCharges
             img={PaidCharges}
             title='Cobranças Pagas'
-            subtitle={toCurrency(panel.pagos.total)}
+            subtitle={toCurrency(panel.paid.total)}
             topic='Cobranças Vencidas'
-            number={toPanel(panel.vencidos.number)}
+            number={toPanel(panel.overdue.number)}
             background='#eef7f7'
             colorNumber='#971d1d'
             backgroundNumber='#ffefef'
-            list={panel.vencidos.list}
+            list={panel.overdue.list}
             toCurrency={toCurrency}
             status='Vencida'
           />
           <CardCharges
             img={OverdueCharges}
             title='Cobranças Vencidas'
-            subtitle={toCurrency(panel.vencidos.total)}
+            subtitle={toCurrency(panel.overdue.total)}
             topic='Cobranças Previstas'
-            number={toPanel(panel.pendentes.number)}
+            number={toPanel(panel.pending.number)}
             background='#ffefef'
             colorNumber='#c5a605'
             backgroundNumber='#fcf6dc'
-            list={panel.pendentes.list}
+            list={panel.pending.list}
             toCurrency={toCurrency}
             status='Pendente'
           />
           <CardCharges
             img={AnticipatedCharges}
             title='Cobranças Previstas'
-            subtitle={toCurrency(panel.pendentes.total)}
+            subtitle={toCurrency(panel.pending.total)}
             topic='Cobranças Pagas'
-            number={toPanel(panel.pagos.number)}
+            number={toPanel(panel.paid.number)}
             background='#fcf6dc'
             colorNumber='#1fa7af'
             backgroundNumber='#eef6f6'
-            list={panel.pagos.list}
+            list={panel.paid.list}
             toCurrency={toCurrency}
             status='Paga'
           />
@@ -182,10 +183,10 @@ const Home = () => {
           <CardClients
             img={DefaulterClients}
             title='Clientes Inadimplentes'
-            number={toPanel(panel.defaultings.number)}
+            number={toPanel(panel.defaulting.number)}
             colorNumber='#971d1d'
             backgroundNumber='#ffefef'
-            rows={panel.defaultings.list}
+            rows={panel.defaulting.list}
             toCurrency={toCurrency}
             status={false}
           />

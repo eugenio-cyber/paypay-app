@@ -7,7 +7,7 @@ yup.setLocale(pt);
 const registerClient = async (req, res) => {
   const { id } = req.user;
   const data = req.body;
-  data.usuario_id = id;
+  data.user_id = id;
 
   try {
     const client = await queryBuilder("clients").insert(data).returning("*");
@@ -97,41 +97,59 @@ const clientCharges = async (req, res) => {
 
 const panelClients = async (_, res) => {
   try {
-    const defaultingsList = await queryBuilder("vw_paypay")
-      .select("name", "ch_id", "valor", "vencimento", "cl_status")
-      .where({ cl_status: false })
-      .orderBy("ch_id", "desc")
-      .groupBy("name", "ch_id", "valor", "vencimento", "cl_status")
+    const defaultingList = await queryBuilder("clients")
+      .join("charges", "clients.id", "charges.client_id")
+      .select(
+        "clients.name",
+        "charges.id",
+        "charges.value",
+        "charges.due",
+        "clients.status"
+      )
+      .where({ "clients.status": false })
+      .orderBy("charges.id", "desc")
+      .groupBy(
+        "clients.name",
+        "charges.id",
+        "charges.value",
+        "charges.due",
+        "clients.status"
+      )
       .limit(4);
 
-    const dealList = await queryBuilder("vw_paypay")
-      .select("name", "ch_id", "valor", "vencimento", "cl_status")
-      .where({ cl_status: true })
-      .orderBy("ch_id", "desc")
-      .groupBy("name", "ch_id", "valor", "vencimento", "cl_status")
+    const dealList = await queryBuilder("clients")
+      .join("charges", "clients.id", "charges.client_id")
+      .select(
+        "clients.name",
+        "charges.id",
+        "charges.value",
+        "charges.due",
+        "clients.status"
+      )
+      .where({ "clients.status": true })
+      .orderBy("charges.id", "desc")
+      .groupBy(
+        "clients.name",
+        "charges.id",
+        "charges.value",
+        "charges.due",
+        "clients.status"
+      )
       .limit(4);
 
-    if (!defaultingsList || !dealList) {
-      defaultingsList = [];
+    if (!defaultingList && !dealList) {
+      defaultingList = [];
       dealList = [];
     }
 
-    const defaultingsNumber = await queryBuilder("vw_paypay")
-      .where({ cl_status: false })
-      .count("cl_id as total");
-
-    const dealNumber = await queryBuilder("vw_paypay")
-      .where({ cl_status: true })
-      .count("cl_id as total");
-
     const clients = {
       legals: {
-        number: dealNumber[0].total,
+        number: dealList.length,
         list: dealList,
       },
-      defaultings: {
-        number: defaultingsNumber[0].total,
-        list: defaultingsList,
+      defaulting: {
+        number: defaultingList.length,
+        list: defaultingList,
       },
     };
 
