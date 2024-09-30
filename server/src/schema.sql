@@ -3,7 +3,7 @@ CREATE DATABASE paypay;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users(
-  id SERIAL  PRIMARY KEY,
+  id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
   cpf TEXT,
   email TEXT UNIQUE NOT NULL,
@@ -25,7 +25,7 @@ CREATE TABLE IF NOT EXISTS clients (
   	address TEXT,
   	city TEXT,
   	state TEXT,
-	status BOOLEAN NOT NULL DEFAULT true,
+	status BOOLEAN NOT NULL,
     user_id INTEGER REFERENCES users(id)
 );
 
@@ -37,5 +37,5 @@ CREATE TABLE IF NOT EXISTS charges(
   	description TEXT NOT NULL,
   	value BIGINT NOT NULL,
     due DATE NOT NULL,
-    status TEXT NOT NULL DEFAULT 'Pendente'
+    status TEXT NOT NULL
 );

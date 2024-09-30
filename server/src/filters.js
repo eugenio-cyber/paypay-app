@@ -7,9 +7,11 @@ yup.setLocale(pt);
 
 const verifyLogin = async (req, res, next) => {
   const { authorization } = req.headers;
+
   if (!authorization) {
     return messages(res, 401, "Usuário não autenticado!");
   }
+
   const token = authorization.replace("Bearer ", "");
 
   try {
@@ -133,13 +135,13 @@ const verifyOnRegisterClient = async (req, res, next) => {
     name: yup.string().required("O campo nome é obrigatório"),
     email: yup.string().email().required("O campo email é obrigatório"),
     cpf: yup.string().min(11).max(14).required("O campo cpf é obrigatório"),
-    telefone: yup.string().required("O campo telefone é obrigatório"),
+    phone: yup.string().required("O campo telefone é obrigatório"),
     cep: yup.string(),
-    logradouro: yup.string(),
-    complemento: yup.string(),
-    bairro: yup.string(),
-    cidade: yup.string(),
-    estado: yup.string(),
+    street: yup.string(),
+    complement: yup.string(),
+    address: yup.string(),
+    city: yup.string(),
+    state: yup.string(),
   });
 
   try {
@@ -165,7 +167,7 @@ const verifyOnRegisterClient = async (req, res, next) => {
 
     next();
   } catch (error) {
-    return messages(res, 400, "Dados inválidos filter!");
+    return messages(res, 400, "Dados inválidos ou faltando.");
   }
 };
 
