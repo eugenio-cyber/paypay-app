@@ -1,66 +1,56 @@
 .card-clients {
-	width: 556px;
-	border-radius: 30px;
-	box-shadow: 0px 4px 4px rgba(172, 217, 197, 0.25);
-
-	background: var(--c-white);
+  width: 556px;
+  border-radius: 30px;
+  box-shadow: 0px 4px 4px rgba(172, 217, 197, 0.25);
+  background: var(--c-white);
 }
 
 .card-clients__header {
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-
-	height: 58px;
-	padding: 0 24px;
-	margin-bottom: 8px;
-	border-bottom: 1px solid #eff0f7;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  height: 58px;
+  padding: 0 24px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #eff0f7;
 }
 
 .card-clients__title {
-	display: flex;
-	align-items: center;
-	gap: 12px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
 }
 
 .card-clients__text {
-	font-family: "Montserrat";
-	font-style: normal;
-	font-weight: 600;
-	font-size: 18px;
-	line-height: 130%;
-
-	color: var(--c-grey-2);
+  font-family: "Montserrat";
+  font-weight: 600;
+  font-size: 18px;
+  line-height: 130%;
+  color: var(--c-grey-2);
 }
 
 .card-clients__number {
-	border-radius: 8px;
-	padding: 0 15px;
-
-	font-family: "Montserrat";
-	font-style: normal;
-	font-weight: 700;
-	font-size: 16px;
-	line-height: 130%;
+  border-radius: 8px;
+  padding: 0 15px;
+  font-family: "Montserrat";
+  font-weight: 700;
+  font-size: 16px;
+  line-height: 130%;
 }
 
 .card-clients__more {
-	display: flex;
-	align-items: center;
-	justify-content: center;
-
-	height: 48px;
-
-	font-family: "Nunito";
-	font-style: normal;
-	font-weight: 400;
-	font-size: 18px;
-	line-height: 130%;
-	text-decoration-line: underline;
-
-	color: var(--purple);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 48px;
+  font-family: "Nunito";
+  font-weight: 400;
+  font-size: 18px;
+  line-height: 130%;
+  text-decoration-line: underline;
+  color: var(--purple);
 }
 
 .MuiTableCell-root {
-	padding: 8px 16px !important;
+  padding: 8px 16px !important;
 }

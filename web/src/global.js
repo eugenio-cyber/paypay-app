@@ -12,7 +12,6 @@ export const alert = {
   top: "20px",
   right: "20px",
   zIndex: 2,
-
   minWidth: "500px",
   minHeight: "50px",
 };

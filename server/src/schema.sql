@@ -1,39 +1,41 @@
-CREATE DATABASE billings;
+CREATE DATABASE paypay;
 
-DROP TABLE IF EXISTS charges;
-DROP TABLE IF EXISTS clients;
 DROP TABLE IF EXISTS users;
 
 CREATE TABLE IF NOT EXISTS users(
-  id SERIAL  PRIMARY KEY,
-  nome TEXT NOT NULL,
-  cpf TEXT DEFAULT '00000000000',
+  id SERIAL PRIMARY KEY,
+  name TEXT NOT NULL,
+  cpf TEXT,
   email TEXT UNIQUE NOT NULL,
-  senha TEXT NOT NULL,
-  telefone TEXT DEFAULT '99900000000' 
+  password TEXT NOT NULL,
+  phone TEXT
 );
+
+DROP TABLE IF EXISTS clients;
 
 CREATE TABLE IF NOT EXISTS clients (
     id SERIAL PRIMARY KEY,
- 	nome TEXT NOT NULL,
+ 	name TEXT NOT NULL,
   	email TEXT NOT NULL UNIQUE,
-  	cpf TEXT NOT NULL DEFAULT '000 000 000 00',
-  	telefone TEXT NOT NULL DEFAULT '00000000',
+  	cpf TEXT NOT NULL,
+  	phone TEXT NOT NULL ,
   	cep INTEGER,
-  	logradouro TEXT,
-  	complemento TEXT,
-  	bairro TEXT,
-  	cidade TEXT,
-  	estado TEXT,
-	status BOOLEAN NOT NULL DEFAULT true,
-    usuario_id INTEGER REFERENCES users(id) DEFAULT 1
+  	street TEXT,
+  	complement TEXT,
+  	address TEXT,
+  	city TEXT,
+  	state TEXT,
+	status BOOLEAN NOT NULL,
+    user_id INTEGER REFERENCES users(id)
 );
+
+DROP TABLE IF EXISTS charges;
 
 CREATE TABLE IF NOT EXISTS charges(
 	id SERIAL PRIMARY KEY,
     client_id INTEGER NOT NULL REFERENCES clients(id),
-  	descricao TEXT NOT NULL,
-  	valor BIGINT NOT NULL DEFAULT 0,
-    vencimento DATE NOT NULL DEFAULT CURRENT_DATE,
-    status TEXT NOT NULL DEFAULT 'Pendente'
+  	description TEXT NOT NULL,
+  	value BIGINT NOT NULL,
+    due DATE NOT NULL,
+    status TEXT NOT NULL
 );

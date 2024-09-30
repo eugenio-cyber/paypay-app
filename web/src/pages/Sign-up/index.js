@@ -88,9 +88,9 @@ function SignUp() {
 
       try {
         await api.post("/users", {
-          nome: forms.name,
+          name: forms.name,
           email: forms.email,
-          senha: forms.password,
+          password: forms.password,
         });
       } catch (error) {
         localWarning.active = true;
@@ -106,7 +106,6 @@ function SignUp() {
         }, 4000);
 
         setStepPage(1);
-
         return;
       }
     }
@@ -114,31 +113,31 @@ function SignUp() {
   }
 
   return (
-    <div className="sign-up">
-      <div className="left__sign-up">
+    <div className='sign-up'>
+      <div className='left__sign-up'>
         <VerticalLinearStepper stepPage={stepPage} />
       </div>
-      <div className="right__sign-up">
-        <h2 className="title">Adicione seus dados</h2>
-        <form className="form" onSubmit={handleSubmit}>
+      <div className='right__sign-up'>
+        <h2 className='title'>Adicione seus dados</h2>
+        <form className='form' onSubmit={handleSubmit}>
           {stepPage === 1 && (
             <>
               <Input
-                label="Nome*"
+                label='Nome*'
                 width={368}
-                type="text"
-                id="nome"
-                placeholder="Digite seu nome"
-                inputName="name"
+                type='text'
+                id='nome'
+                placeholder='Digite seu nome'
+                inputName='name'
               />
 
               <Input
-                label="E-mail*"
+                label='E-mail*'
                 width={368}
-                type="email"
-                id="email"
-                placeholder="Digite seu e-mail"
-                inputName="email"
+                type='email'
+                id='email'
+                placeholder='Digite seu e-mail'
+                inputName='email'
               />
             </>
           )}
@@ -146,23 +145,23 @@ function SignUp() {
           {stepPage === 2 && (
             <>
               <Input
-                label="Senha*"
+                label='Senha*'
                 width={344}
-                type="password"
-                id="password"
-                placeholder="Digite sua senha"
+                type='password'
+                id='password'
+                placeholder='Digite sua senha'
                 eyeIcon={true}
-                inputName="password"
+                inputName='password'
               />
 
               <Input
-                label="Repita a senha*"
+                label='Repita a senha*'
                 width={344}
-                type="password"
-                id="password2"
-                placeholder="Repita sua senha"
+                type='password'
+                id='password2'
+                placeholder='Repita sua senha'
                 eyeIcon={true}
-                inputName="repeatedPassword"
+                inputName='repeatedPassword'
               />
             </>
           )}
@@ -170,41 +169,41 @@ function SignUp() {
           {stepPage === 3 && <ModalSuccess />}
 
           {stepPage === 3 ? (
-            <Link to="/Login">
+            <Link to='/Login'>
               <BasicButtons
-                variant="contained"
-                action="Ir para Login"
-                width="160px"
-                marginTop="26px"
+                variant='contained'
+                action='Ir para Login'
+                width='160px'
+                marginTop='26px'
               />
             </Link>
           ) : (
             <BasicButtons
-              variant="contained"
+              variant='contained'
               action={stepPage === 1 ? "Continuar" : "Finalizar cadastro"}
               width={stepPage === 1 ? "160px" : "200px"}
-              marginTop="26px"
+              marginTop='26px'
             />
           )}
         </form>
 
         {stepPage !== 3 && (
-          <span className="redirect">
+          <span className='redirect'>
             Já possui uma conta? Faça seu{" "}
-            <Link to="/Login">
-              <span className="redirect__alert cursor-pointer">Login</span>
+            <Link to='/Login'>
+              <span className='redirect__alert cursor-pointer'>Login</span>
             </Link>
           </span>
         )}
 
-        <div className="step-bars">
+        <div className='step-bars'>
           <div className={stepPage === 1 ? "color-green" : "color-gray"}></div>
           <div className={stepPage === 2 ? "color-green" : "color-gray"}></div>
           <div className={stepPage === 3 ? "color-green" : "color-gray"}></div>
         </div>
       </div>
       {warning.active && (
-        <Alert variant="filled" severity={warning.type} sx={alert}>
+        <Alert variant='filled' severity={warning.type} sx={alert}>
           {warning.message}
         </Alert>
       )}
