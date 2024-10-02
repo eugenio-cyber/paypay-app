@@ -10,11 +10,11 @@
 
 ## 🔗 Quer acessar o projeto?
 
-Clique [aqui](https://pacode-team.netlify.app/) para acessar o projeto.
+Clique [aqui](https://paypay-app.vercel.app/) para acessar o projeto.
 
 ## 🏹 Qual o objetivo do projeto?
 
-Tem o objetivo de...
+Tem o objetivo de criar uma aplicação para gerenciamento de pagamentos para empresas ou pessoas.
 
 ## 💻 Como usar?
 
