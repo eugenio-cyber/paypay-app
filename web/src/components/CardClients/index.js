@@ -20,10 +20,10 @@ const CardClients = ({
   toCurrency,
   status,
 }) => {
-  const { navigate, setStatusClient } = useContext(UserContext);
+  const { navigate, setClientStatus } = useContext(UserContext);
 
   function handleFilterClient() {
-    setStatusClient(status);
+    setClientStatus(status);
     navigate("/clients");
   }
 
@@ -69,7 +69,6 @@ const CardClients = ({
                   sx={{
                     "&:last-child td, &:last-child th": {
                       border: 0,
-                      verticalAlign: "baseline",
                     },
                   }}
                 >

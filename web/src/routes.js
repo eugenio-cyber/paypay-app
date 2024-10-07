@@ -192,20 +192,20 @@ export default function TheRoutes() {
         },
       });
 
-      if (statusClient.length === 0) {
+      if (ClientStatus.length === 0) {
         setClientsList(response.data);
       } else {
         const filteredClients = response.data.filter((client) => {
-          return client.status === statusClient;
+          return client.status === ClientStatus;
         });
         setClientsList([...filteredClients]);
-        setStatusClient("");
+        setClientStatus("");
       }
     } catch (error) {
       console.log(error);
     }
   }
-  const [statusClient, setStatusClient] = useState("");
+  const [ClientStatus, setClientStatus] = useState("");
   const [clientsList, setClientsList] = useState([]);
   const [user, setUser, removeUser] = useLocalStorage("user", {});
   const [order, setOrder] = useState(true);
@@ -283,8 +283,8 @@ export default function TheRoutes() {
         showPopupCharge,
         showPopupDel,
         showPopupEdit,
-        statusClient,
-        setStatusClient,
+        ClientStatus,
+        setClientStatus,
         statusCharges,
         setStatusCharges,
         user,

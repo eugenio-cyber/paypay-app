@@ -35,10 +35,10 @@ export default function Client() {
     setShowPopupCharge,
     setShowPopupDel,
     showPopupDel,
-    warning
+    warning,
   } = useContext(UserContext);
 
-  const [cliente] = useLocalStorage("cliente", currentClient);
+  const [client] = useLocalStorage("client", currentClient);
 
   const handleClickEditUser = () => {
     const localShowModal = { ...showModal };
@@ -53,45 +53,46 @@ export default function Client() {
     navigate("/");
   };
 
-  useEffect(() => { }, [cliente]);
+  useEffect(() => {}, [client]);
+
   return (
-    <div className="clients">
-      <header className="header">
-        <ClientBreadcrumbs className="header-line" />
-        <div className="header__user">
-          <img className="header__avatar" src={Avatar} alt="Avatar" />
-          <span className="header__username">{getItem("nome")}</span>
+    <div className='clients'>
+      <header className='header'>
+        <ClientBreadcrumbs className='header-line' />
+        <div className='header__user'>
+          <img className='header__avatar' src={Avatar} alt='Avatar' />
+          <span className='header__username'>{getItem("nome")}</span>
           <img
-            className="cursor-pointer"
+            className='cursor-pointer'
             src={ArrowDown}
-            alt="Seta pra baixo"
+            alt='Seta pra baixo'
             onClick={() => setShowOption(!showOption)}
           />
 
           {showOption && (
-            <div className="options">
-              <div className="options__group">
+            <div className='options'>
+              <div className='options__group'>
                 <img
                   src={IconEdit}
-                  alt="Caneta"
-                  className="cursor-pointer"
+                  alt='Caneta'
+                  className='cursor-pointer'
                   onClick={() => handleClickEditUser()}
                 />
                 <img
-                  className="options__arrow-up"
+                  className='options__arrow-up'
                   src={ArrowUp}
-                  alt="Seta pra cima"
+                  alt='Seta pra cima'
                 />
               </div>
-              <div className="options__group">
-                <img src={Leave} alt="Sair" onClick={() => handleExit()} />
+              <div className='options__group'>
+                <img src={Leave} alt='Sair' onClick={() => handleExit()} />
               </div>
             </div>
           )}
         </div>
       </header>
-      <section className="client__section">
-        <Container maxWidth="lg">
+      <section className='client__section'>
+        <Container maxWidth='lg'>
           <CardClientInfo />
         </Container>
       </section>
@@ -100,44 +101,56 @@ export default function Client() {
       {showModal.editUser && <ModalEditUser getUser={getUser} />}
 
       {showPopupCharge.successful && (
-        <div className="successful-register">
-          <img alt="Ícone de checado" src={checkedIcon} />
+        <div className='successful-register'>
+          <img alt='Ícone de checado' src={checkedIcon} />
           <span>{warning.message}</span>
           <img
-            alt="Botão fechar"
+            alt='Botão fechar'
             src={closeIcon}
-            className="cursor-pointer"
+            className='cursor-pointer'
             onClick={() => setShowPopupCharge(false)}
           />
         </div>
       )}
 
       {showPopupEdit && (
-        <div className="successful-register" style={{ width: 430 }}>
-          <img alt="Ícone de checado" src={checkedIcon} />
+        <div className='successful-register' style={{ width: 430 }}>
+          <img alt='Ícone de checado' src={checkedIcon} />
           <span>Edições do cadastro concluídas com sucesso</span>
           <img
-            alt="Botão fechar"
+            alt='Botão fechar'
             src={closeIcon}
-            className="cursor-pointer"
+            className='cursor-pointer'
             onClick={() => setShowPopupEdit(false)}
           />
         </div>
       )}
 
       {(showPopupDel.successful || showPopupDel.failed) && (
-        <div className={showPopupDel.successful ? "successful-register" : "failed-register"}>
-          <img alt="Ícone da situação" src={showPopupDel.successful ? checkedIcon : errorSymbol} />
-          <span>{showPopupDel.successful ? "Cobrança excluída com sucesso!" :
-            "Esta cobrança não pode ser excluída!"}</span>
+        <div
+          className={
+            showPopupDel.successful ? "successful-register" : "failed-register"
+          }
+        >
           <img
-            alt="Botão fechar"
+            alt='Ícone da situação'
+            src={showPopupDel.successful ? checkedIcon : errorSymbol}
+          />
+          <span>
+            {showPopupDel.successful
+              ? "Cobrança excluída com sucesso!"
+              : "Esta cobrança não pode ser excluída!"}
+          </span>
+          <img
+            alt='Botão fechar'
             src={showPopupDel.successful ? closeIcon : closeIconRed}
-            className="cursor-pointer"
-            onClick={() => setShowPopupDel({
-              successful: false,
-              failed: false
-            })}
+            className='cursor-pointer'
+            onClick={() =>
+              setShowPopupDel({
+                successful: false,
+                failed: false,
+              })
+            }
           />
         </div>
       )}

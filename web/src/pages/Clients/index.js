@@ -17,7 +17,7 @@ import SearchIcon from "@mui/icons-material/Search";
 import { InputBase } from "@mui/material";
 import { useContext, useEffect, useState } from "react";
 import BasicButtons from "../../components/Button";
-import DenseTable from "../../components/ClientsData";
+import ClientsTable from "../../components/ClientsTable";
 import DialogWait from "../../components/Dialog";
 import ModalCharge from "../../components/ModalCharge";
 import ModalClient from "../../components/ModalClient";
@@ -48,13 +48,14 @@ const Clients = () => {
   function orderClients() {
     setOrder(!order);
     const localClientsList = clientsList;
+
     if (order) {
       localClientsList.sort((a, b) => {
-        return a.nome.localeCompare(b.nome);
+        return a.name.localeCompare(b.name);
       });
     } else {
       localClientsList.sort((a, b) => {
-        return b.nome.localeCompare(a.nome);
+        return b.name.localeCompare(a.name);
       });
     }
     setClientsList(localClientsList);
@@ -102,7 +103,7 @@ const Clients = () => {
         <span className='header-line'>Clientes</span>
         <div className='header__user'>
           <img className='header__avatar' src={Avatar} alt='Avatar' />
-          <span className='header__username'>{getItem("nome")}</span>
+          <span className='header__username'>{getItem("name")}</span>
           <img
             className='cursor-pointer'
             src={ArrowDown}
@@ -116,11 +117,7 @@ const Clients = () => {
                 className='options__group'
                 onClick={() => handleClickEditUser()}
               >
-                <img
-                  src={Pencil}
-                  alt='Caneta'
-                  className='cursor-pointer'
-                />
+                <img src={Pencil} alt='Caneta' className='cursor-pointer' />
                 <span className='options__text'>Editar</span>
                 <img
                   className='options__arrow-up'
@@ -129,11 +126,7 @@ const Clients = () => {
                 />
               </div>
               <div className='options__group'>
-                <img
-                  src={Leave}
-                  alt='Sair'
-                  onClick={() => handleExit()}
-                />
+                <img src={Leave} alt='Sair' onClick={() => handleExit()} />
                 <span className='options__text'>Sair</span>
               </div>
             </div>
@@ -170,11 +163,7 @@ const Clients = () => {
           </div>
         </div>
         <div className='info-clients'>
-          <DenseTable
-            clientsList={clientsList}
-            orderClients={orderClients}
-            query={query}
-          />
+          <ClientsTable orderClients={orderClients} query={query} />
         </div>
       </section>
 
@@ -214,9 +203,7 @@ const Clients = () => {
       {warning.active && warning.type !== "error" && (
         <div className='warning-charge'>
           <img src={BillingAccepted} alt='Cobrança aceita' />
-          <span className='warning-charge__text'>
-            {warning.message}
-          </span>
+          <span className='warning-charge__text'>{warning.message}</span>
           <img
             className='warning-charge__img cursor-pointer'
             src={Close}
@@ -228,7 +215,6 @@ const Clients = () => {
       <DialogWait time={1200} />
     </div>
   );
-
 };
 
 export default Clients;
