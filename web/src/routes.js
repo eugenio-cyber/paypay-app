@@ -72,10 +72,10 @@ export default function TheRoutes() {
 
   const [viaCep, setViaCep] = useState({
     cep: "",
-    logradouro: "",
-    complemento: "",
-    bairro: "",
-    localidade: "",
+    street: "",
+    complement: "",
+    address: "",
+    city: "",
   });
 
   const [showModal, setShowModal] = useState({
@@ -137,19 +137,19 @@ export default function TheRoutes() {
     }
   };
 
-  async function handleCep(pcep) {
+  async function handleCep(userCep) {
     try {
-      const response = await fetch(`https://viacep.com.br/ws/${pcep}/json/`);
-      const { cep, logradouro, complemento, bairro, localidade, uf } =
+      const response = await fetch(`https://viacep.com.br/ws/${userCep}/json/`);
+      const { cep, logradouro, complemento, bairro, localidade } =
         await response.json();
+
       setViaCep({
         ...viaCep,
         cep: cep.replace("-", ""),
-        logradouro,
-        complemento,
-        bairro,
-        localidade,
-        uf,
+        street: logradouro,
+        complement: complemento,
+        address: bairro,
+        city: localidade,
       });
       return;
     } catch (error) {

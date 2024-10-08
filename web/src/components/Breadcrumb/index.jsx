@@ -8,6 +8,7 @@ export default function ClientBreadcrumbs() {
     e.preventDefault();
     localStorage.removeItem("cliente");
   }
+
   return (
     <div role='presentation' onClick={handleClick}>
       <Breadcrumbs

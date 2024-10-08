@@ -3,10 +3,6 @@ import BtnNewCharge from "../../assets/btn-charge.svg";
 const useStyles = () => {
   return {
     client: {
-      nome: "Sara Laje Silva",
-      span: {
-        fontSize: "1rem",
-      },
       h1: {
         fontSize: "2rem",
         fontWeight: 600,
@@ -21,16 +17,16 @@ const useStyles = () => {
       },
     },
     titles: {
-      cliente: "Dados do cliente",
+      client: "Dados do cliente",
       charges: "Cobranças do Cliente",
     },
     labels: {
       cpf: "CPF",
       email: "Email",
-      telefone: "Telefone",
-      endereco: "Endereço",
-      cidade: "Cidade",
-      estado: "Estado",
+      phone: "Telefone",
+      address: "Endereço",
+      city: "Cidade",
+      state: "Estado",
       cep: "CEP",
     },
     styles: {
@@ -53,10 +49,6 @@ const useStyles = () => {
         width: "100%",
       },
       cardGrid: {
-        header: {
-          title: "Cobranças do Cliente",
-          button: {},
-        },
         headerClass: {
           marginTop: "1rem",
           marginLeft: "1rem",
@@ -80,4 +72,5 @@ const useStyles = () => {
     },
   };
 };
+
 export default useStyles;

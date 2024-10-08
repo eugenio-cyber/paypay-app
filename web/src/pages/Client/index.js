@@ -61,7 +61,7 @@ export default function Client() {
         <ClientBreadcrumbs className='header-line' />
         <div className='header__user'>
           <img className='header__avatar' src={Avatar} alt='Avatar' />
-          <span className='header__username'>{getItem("nome")}</span>
+          <span className='header__username'>{getItem("name")}</span>
           <img
             className='cursor-pointer'
             src={ArrowDown}
