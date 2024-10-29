@@ -20,30 +20,23 @@
 
 .input__label {
   padding-bottom: 6px;
-
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 20px;
-
   color: var(--grey);
 }
 
 .forget-password {
-  font-family: 'Nunito', sans-serif;
+  font-family: "Nunito", sans-serif;
   font-style: normal;
   font-weight: 600;
   font-size: 14px;
   line-height: 130%;
   text-decoration: underline;
-
   color: var(--purple);
 }
-
-/* .input-field {
-  all: unset;
-} */
 
 .MuiInputBase-root input {
   height: 12px;

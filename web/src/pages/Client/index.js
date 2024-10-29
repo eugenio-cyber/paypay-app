@@ -36,6 +36,7 @@ export default function Client() {
     setShowPopupDel,
     showPopupDel,
     warning,
+    user,
   } = useContext(UserContext);
 
   const [client] = useLocalStorage("client", currentClient);
@@ -61,7 +62,7 @@ export default function Client() {
         <ClientBreadcrumbs className='header-line' />
         <div className='header__user'>
           <img className='header__avatar' src={Avatar} alt='Avatar' />
-          <span className='header__username'>{getItem("name")}</span>
+          <span className='header__username'>{user.name}</span>
           <img
             className='cursor-pointer'
             src={ArrowDown}

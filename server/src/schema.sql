@@ -5,10 +5,10 @@ DROP TABLE IF EXISTS users;
 CREATE TABLE IF NOT EXISTS users(
   id SERIAL PRIMARY KEY,
   name TEXT NOT NULL,
-  cpf TEXT,
+  cpf INTEGER,
   email TEXT UNIQUE NOT NULL,
   password TEXT NOT NULL,
-  phone TEXT
+  phone INTEGER
 );
 
 DROP TABLE IF EXISTS clients;
@@ -17,8 +17,8 @@ CREATE TABLE IF NOT EXISTS clients (
     id SERIAL PRIMARY KEY,
  	name TEXT NOT NULL,
   	email TEXT NOT NULL UNIQUE,
-  	cpf TEXT NOT NULL,
-  	phone TEXT NOT NULL ,
+  	cpf INTEGER NOT NULL,
+  	phone INTEGER NOT NULL ,
   	cep INTEGER,
   	street TEXT,
   	complement TEXT,

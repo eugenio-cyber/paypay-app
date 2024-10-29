@@ -2,7 +2,7 @@ import BtnNewCharge from "../../assets/btn-charge.svg";
 
 const useStyles = () => {
   return {
-    client: {
+    grid: {
       h1: {
         fontSize: "2rem",
         fontWeight: 600,

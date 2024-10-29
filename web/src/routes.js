@@ -34,8 +34,15 @@ export default function TheRoutes() {
   const [currentClient, setCurrentClient] = useState({});
   const [charges, setCharges] = useState([]);
   const [statusCharges, setStatusCharges] = useState("");
-  const [cliente, setCliente, removeCliente] = useLocalStorage("cliente", {});
+  const [client, setClient, removeClient] = useLocalStorage("client", {});
+  const [user, setUser, removeUser] = useLocalStorage("user", {});
   const [showOption, setShowOption] = useState(false);
+  const [showPopup, setShowPopup] = useState(false);
+  const [showPopupEdit, setShowPopupEdit] = useState(false);
+  const [clientCharges, setClientCharges] = useState([]);
+  const [ClientStatus, setClientStatus] = useState("");
+  const [clientsList, setClientsList] = useState([]);
+  const [order, setOrder] = useState(true);
 
   const [forms, setForms] = useState({
     name: "",
@@ -70,14 +77,6 @@ export default function TheRoutes() {
     chargeId: 0,
   });
 
-  const [viaCep, setViaCep] = useState({
-    cep: "",
-    street: "",
-    complement: "",
-    address: "",
-    city: "",
-  });
-
   const [showModal, setShowModal] = useState({
     addCharge: false,
     editCharge: false,
@@ -85,9 +84,6 @@ export default function TheRoutes() {
     editUser: false,
     alertCharge: false,
   });
-
-  const [showPopup, setShowPopup] = useState(false);
-  const [showPopupEdit, setShowPopupEdit] = useState(false);
 
   const [showPopupCharge, setShowPopupCharge] = useState({
     successful: false,
@@ -99,7 +95,6 @@ export default function TheRoutes() {
     failed: false,
   });
 
-  const [clientCharges, setClientCharges] = useState([]);
   const [warning, setWarning] = useState({
     active: false,
     message: "",
@@ -136,26 +131,6 @@ export default function TheRoutes() {
       }, 4000);
     }
   };
-
-  async function handleCep(userCep) {
-    try {
-      const response = await fetch(`https://viacep.com.br/ws/${userCep}/json/`);
-      const { cep, logradouro, complemento, bairro, localidade } =
-        await response.json();
-
-      setViaCep({
-        ...viaCep,
-        cep: cep.replace("-", ""),
-        street: logradouro,
-        complement: complemento,
-        address: bairro,
-        city: localidade,
-      });
-      return;
-    } catch (error) {
-      console.log(error.message);
-    }
-  }
 
   const getUser = async () => {
     try {
@@ -202,17 +177,13 @@ export default function TheRoutes() {
         setClientStatus("");
       }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   }
-  const [ClientStatus, setClientStatus] = useState("");
-  const [clientsList, setClientsList] = useState([]);
-  const [user, setUser, removeUser] = useLocalStorage("user", {});
-  const [order, setOrder] = useState(true);
 
   async function handleLoadChargesClient() {
     try {
-      const url = `/client/${cliente.id}/charge`;
+      const url = `/client/${client.id}/charge`;
       const token = getItem("token");
       const response = await api.get(url, {
         headers: {
@@ -240,7 +211,7 @@ export default function TheRoutes() {
       value={{
         Alert,
         charges,
-        cliente,
+        client,
         clientsList,
         clientCharges,
         currentClient,
@@ -250,16 +221,15 @@ export default function TheRoutes() {
         getCharges,
         getItem,
         getUser,
-        handleCep,
         Link,
         navigate,
         order,
         panel,
-        removeCliente,
+        removeClient,
         removeUser,
         setCharges,
         setClientsList,
-        setCliente,
+        setClient,
         setClientCharges,
         setCurrentClient,
         setCurrentUser,
@@ -274,7 +244,6 @@ export default function TheRoutes() {
         setShowPopupDel,
         setShowPopupEdit,
         setUser,
-        setViaCep,
         setWarning,
         showClients,
         showModal,
@@ -288,7 +257,6 @@ export default function TheRoutes() {
         statusCharges,
         setStatusCharges,
         user,
-        viaCep,
         warning,
         useLocalStorage,
         handleLoadChargesClient,

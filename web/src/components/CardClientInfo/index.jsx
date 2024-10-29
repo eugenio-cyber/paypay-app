@@ -22,23 +22,21 @@ export default function CardClientInfos() {
     setShowModal,
     showModal,
     handleLoadChargesClient,
-    cliente,
+    client,
   } = useContext(UserContext);
 
-  const { client, titles, labels, styles } = useStyles();
+  const { grid, titles, labels, styles } = useStyles();
 
   function handleEditClient() {
-    const localShowModal = { ...showModal };
-    localShowModal.addClient = true;
-    setShowModal({ ...localShowModal });
+    setShowModal({ ...showModal, addClient: true });
   }
 
   const openModal = () => {
     const localFormCharge = { ...formCharge };
     const localShowModal = { ...showModal };
 
-    localFormCharge.name = cliente.name;
-    localFormCharge.clientId = cliente.id;
+    localFormCharge.name = client.name;
+    localFormCharge.clientId = client.id;
     setFormCharge({ ...localFormCharge });
 
     localShowModal.addCharge = true;
@@ -57,13 +55,13 @@ export default function CardClientInfos() {
   return (
     <div>
       <Container style={{ width: "100%" }}>
-        <Grid sx={client.box} item>
+        <Grid sx={grid.box} item>
           <img
             src={UsersIcon}
             style={{ marginRight: "0.5rem" }}
             alt='icon-clients'
           />
-          <h1 style={client.h1}>{cliente.name}</h1>
+          <h1 style={grid.h1}>{client.name}</h1>
         </Grid>
         <Card sx={styles.card}>
           <div className='card-header'>
@@ -77,41 +75,41 @@ export default function CardClientInfos() {
             <Grid container sx={{ display: "flex" }}>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>{labels.email}</Typography>
-                <Typography>{cliente.email}</Typography>
+                <Typography>{client.email}</Typography>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>{labels.phone}</Typography>
-                <Typography>{cliente.phone}</Typography>
+                <Typography>{client.phone}</Typography>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>{labels.cpf}</Typography>
-                <Typography>{cliente.cpf}</Typography>
+                <Typography>{client.cpf}</Typography>
               </Grid>
             </Grid>
             <Grid container>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>Endereço</Typography>
-                <Typography sx={styles.span}>{cliente.address}</Typography>
+                <Typography sx={styles.span}>{client.address}</Typography>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>Bairro</Typography>
-                <Typography sx={styles.span}>{cliente.street}</Typography>
+                <Typography sx={styles.span}>{client.street}</Typography>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>Complemento</Typography>
-                <Typography sx={styles.span}>{cliente.complement}</Typography>
+                <Typography sx={styles.span}>{client.complement}</Typography>
               </Grid>
               <Grid item xs={12} sm={2}>
                 <Typography sx={styles.titles}>Cidade</Typography>
-                <Typography sx={styles.span}>{cliente.city}</Typography>
+                <Typography sx={styles.span}>{client.city}</Typography>
               </Grid>
               <Grid item xs={12} sm={1}>
                 <Typography sx={styles.titles}>UF</Typography>
-                <Typography sx={styles.span}>{cliente.state}</Typography>
+                <Typography sx={styles.span}>{client.state}</Typography>
               </Grid>
               <Grid item xs={12} sm={1}>
                 <Typography sx={styles.titles}>CEP</Typography>
-                <Typography sx={styles.span}>{cliente.cep}</Typography>
+                <Typography sx={styles.span}>{client.cep}</Typography>
               </Grid>
             </Grid>
           </CardContent>

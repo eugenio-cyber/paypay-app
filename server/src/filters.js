@@ -152,18 +152,14 @@ const verifyOnRegisterClient = async (req, res, next) => {
       .where({ cpf })
       .first();
 
-    if (rsCpf) {
-      return messages(res, 400, "CPF já cadastrado!");
-    }
+    if (rsCpf) return messages(res, 400, "CPF já cadastrado!");
 
     const rsEmail = await queryBuilder("clients")
       .select("cpf")
       .where({ email })
       .first();
 
-    if (rsEmail) {
-      return messages(res, 400, "E-mail já cadastrado!");
-    }
+    if (rsEmail) return messages(res, 400, "E-mail já cadastrado!");
 
     next();
   } catch (error) {

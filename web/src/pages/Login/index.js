@@ -51,7 +51,6 @@ const Login = () => {
 
       setUser(user);
       setItem("token", token);
-      setItem("name", user.name);
 
       const localWarning = { ...warning };
       localWarning.active = true;

@@ -23,51 +23,49 @@ const Input = ({
   const { forms, setForms, handleCep } = useContext(UserContext);
   const [eyeState, setEyeState] = useState(false);
 
-  async function changeInputValue(evt) {
-    const oldValue = evt.target.name;
-    const newValue = evt.target.value;
-    setForms({ ...forms, [oldValue]: newValue });
+  async function changeInputValue(event) {
+    const targetName = event.target.name;
+    const targetValue = event.target.value;
+    setForms((prev) => ({ ...prev, [targetName]: targetValue }));
 
-    if (oldValue === "cep") {
-      if (newValue.length === 8) {
-        handleCep(newValue);
-      }
+    if (targetName === "cep" && targetValue.length === 8) {
+      handleCep(targetValue);
     }
   }
 
   return (
-    <div className="input" style={{ width: width }}>
+    <div className='input' style={{ width: width }}>
       {eyeIcon && (
         <>
           {eyeState ? (
             <img
-              alt="Ícone de senha"
+              alt='Ícone de senha'
               src={openedEye}
-              className="eyeIcon"
+              className='eyeIcon'
               onClick={() => setEyeState(false)}
             />
           ) : (
             <img
-              alt="ícone de senha"
+              alt='ícone de senha'
               src={crossedEye}
-              className="eyeIcon"
+              className='eyeIcon'
               onClick={() => setEyeState(true)}
             />
           )}
         </>
       )}
 
-      <div className="input__top">
-        <label className="input__label" htmlFor={id}>
+      <div className='input__top'>
+        <label className='input__label' htmlFor={id}>
           {label}
         </label>
-        <span className="forget-password cursor-pointer">{alert}</span>
+        <span className='forget-password cursor-pointer'>{alert}</span>
       </div>
       <TextField
-        required={isRequired === undefined ? false : true}
-        className="input-field"
+        required={isRequired ? true : false}
+        className='input-field'
         id={id}
-        variant="outlined"
+        variant='outlined'
         placeholder={placeholder}
         type={eyeState ? "text" : type}
         name={inputName}

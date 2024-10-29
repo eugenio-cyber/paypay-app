@@ -1,271 +1,91 @@
 import "./styles.css";
 
+import { TextField, Box } from "@mui/material";
 import clientsIcon from "../../assets/clients2.svg";
 import closeIcon from "../../assets/close.svg";
 
-import { useContext, useEffect, useState } from "react";
-import Input from "../Input";
+import { useContext, useEffect } from "react";
+import { useForm } from "react-hook-form";
 import UserContext from "../../context/userContext";
-import { alert } from "../../global";
 import api from "../../services/api";
 import BasicButtons from "../Button";
 
-export default function ModalClient({ showClients, editClient }) {
-  const {
-    Alert,
-    forms,
-    getItem,
-    setForms,
-    setShowModal,
-    setShowPopup,
-    setShowPopupEdit,
-    setWarning,
-    viaCep,
-    warning,
-    cliente,
-    setCliente,
-  } = useContext(UserContext);
+export default function ModalClient({ editClient }) {
+  const { getItem, setShowModal, client, setClient, showClients } =
+    useContext(UserContext);
 
-  const [errorInput, setErrorInput] = useState(false);
+  const {
+    register,
+    handleSubmit,
+    watch,
+    reset,
+    formState: { errors },
+  } = useForm();
+
+  const watchCep = watch("cep");
+
+  const handleCep = async () => {
+    try {
+      const response = await fetch(
+        `https://viacep.com.br/ws/${watchCep}/json/`
+      );
+      const { cep, logradouro, complemento, bairro, localidade, estado } =
+        await response.json();
+
+      reset({
+        cep: cep.replace("-", ""),
+        street: logradouro,
+        complement: complemento,
+        address: bairro,
+        city: localidade,
+        state: estado,
+      });
+    } catch (error) {
+      console.error(error.message);
+    }
+  };
 
   function handleClose() {
-    setForms({
-      name: "",
-      email: "",
-      password: "",
-      repeatedPassword: "",
-      cpf: "",
-      phone: "",
-      address: "",
-      complement: "",
-      cep: "",
-      neighborhood: "",
-      city: "",
-      uf: "",
-    });
-
     setShowModal(false);
   }
 
-  async function handleAddClient(evt) {
-    evt.preventDefault();
-    const localWarning = { ...warning };
-
-    if (
-      !forms.name.trim() ||
-      !forms.email.trim() ||
-      !forms.cpf.trim() ||
-      !forms.phone.trim()
-    ) {
-      setErrorInput(true);
-
-      localWarning.active = true;
-      localWarning.message =
-        "Os campos com (*) não podem possuir espaços em branco";
-
-      setWarning({ ...localWarning });
-
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
-
-      return;
-    }
-
-    if (forms.cpf.length < 11) {
-      localWarning.active = true;
-      localWarning.message =
-        "O CPF deve ter no mínimo 11 dígitos e no máximo 14.";
-
-      setWarning({ ...localWarning });
-
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
-
-      return;
-    }
-
+  const handleAddClient = async (data) => {
     try {
-      await api.post(
-        "/clients",
-        {
-          nome: forms.name,
-          email: forms.email,
-          cpf: forms.cpf,
-          telefone: forms.phone,
-          logradouro: forms.address,
-          complemento: forms.complement,
-          cep: forms.cep,
-          bairro: forms.neighborhood,
-          cidade: forms.city,
-          estado: forms.uf,
-        },
-        {
-          headers: {
-            Authorization: "Bearer " + getItem("token"),
-          },
-        }
-      );
-
-      setShowModal(false);
-
-      await showClients();
-
-      setTimeout(() => {
-        setShowPopup(true);
-      }, 1000);
-
-      setTimeout(() => {
-        setShowPopup(false);
-      }, 10000);
-    } catch (error) {
-      localWarning.active = true;
-      localWarning.message = error.response.data;
-
-      setWarning({ ...localWarning });
-
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
-    }
-  }
-
-  async function handleEditClient(e) {
-    e.preventDefault();
-
-    const localWarning = { ...warning };
-
-    if (
-      !forms.name.trim() ||
-      !forms.email.trim() ||
-      !forms.cpf.trim() ||
-      !forms.phone.trim()
-    ) {
-      setErrorInput(true);
-
-      localWarning.active = true;
-      localWarning.message =
-        "Os campos com (*) não podem possuir espaços em branco";
-
-      setWarning({ ...localWarning });
-
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
-
-      return;
-    }
-
-    if (forms.cpf.length < 11) {
-      localWarning.active = true;
-      localWarning.message =
-        "O CPF deve ter no mínimo 11 dígitos e no máximo 14.";
-
-      setWarning({ ...localWarning });
-
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
-
-      return;
-    }
-
-    const clientInfos = {
-      name: forms.name !== cliente.name ? forms.name : cliente.name,
-      email: forms.email !== cliente.email ? forms.email : cliente.email,
-      cpf: forms.cpf !== cliente.cpf ? forms.cpf : cliente.cpf,
-      phone: forms.phone !== cliente.phone ? forms.phone : cliente.phone,
-      address:
-        forms.address !== cliente.address ? forms.address : cliente.address,
-      complement:
-        forms.complement !== cliente.complement
-          ? forms.complement
-          : cliente.complement,
-      cep: forms.cep !== cliente.cep ? forms.cep : cliente.cep,
-      street: forms.street !== cliente.street ? forms.street : cliente.street,
-      city: forms.city !== cliente.city ? forms.city : cliente.city,
-      state: forms.state !== cliente.state ? forms.state : cliente.state,
-    };
-
-    try {
-      await api.patch(`/clients/${cliente.id}`, clientInfos, {
+      await api.post("/clients", data, {
         headers: {
           Authorization: "Bearer " + getItem("token"),
         },
       });
 
-      setCliente({ ...clientInfos, id: cliente.id });
       setShowModal(false);
-
-      setTimeout(() => {
-        setShowPopupEdit(true);
-      }, 1000);
-
-      setTimeout(() => {
-        setShowPopupEdit(false);
-      }, 10000);
+      await showClients();
     } catch (error) {
-      localWarning.active = true;
-      localWarning.message = error.response.data;
+      console.error(error);
+    }
+  };
 
-      setWarning({ ...localWarning });
+  async function handleEditClient(data) {
+    try {
+      await api.patch(`/clients/${client.id}`, data, {
+        headers: {
+          Authorization: "Bearer " + getItem("token"),
+        },
+      });
 
-      setTimeout(() => {
-        localWarning.active = false;
-        localWarning.message = "";
-
-        setWarning({ ...localWarning });
-      }, 4000);
+      setClient({ ...data, id: client.id });
+      setShowModal(false);
+    } catch (error) {
+      console.error(error);
     }
   }
 
   useEffect(() => {
-    if (viaCep.cep.length === 8) {
-      setForms({
-        ...forms,
-        cep: viaCep.cep,
-        address: viaCep.logradouro,
-        complement: viaCep.complemento,
-        street: viaCep.bairro,
-        city: viaCep.localidade,
-        state: viaCep.uf,
-      });
-    }
+    if (watchCep?.length === 8) handleCep();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [viaCep]);
+  }, [watchCep]);
 
   useEffect(() => {
-    if (editClient) {
-      setForms({
-        name: cliente.name,
-        email: cliente.email,
-        cpf: cliente.cpf,
-        phone: cliente.phone,
-        street: cliente.street,
-        complement: cliente.complement,
-        cep: cliente.cep,
-        address: cliente.address,
-        city: cliente.city,
-        state: cliente.state,
-      });
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
+    if (editClient) reset(client);
   }, []);
 
   return (
@@ -279,123 +99,129 @@ export default function ModalClient({ showClients, editClient }) {
         />
 
         <div className='head-card'>
-          <img alt='Ícone cliente' src={clientsIcon} />
-          <h1>{!editClient ? "Cadastro do Cliente" : "Editar Cliente"} </h1>
+          <img alt='Ícone client' src={clientsIcon} />
+          <h1>{editClient ? "Editar Cliente" : "Cadastro do Cliente"} </h1>
         </div>
 
         <form
           className='form-modal'
-          onSubmit={!editClient ? handleAddClient : handleEditClient}
+          onSubmit={handleSubmit(
+            editClient ? handleEditClient : handleAddClient
+          )}
         >
-          <Input
+          <TextField
             label='Nome*'
-            width={460}
             type='text'
-            id='nome'
-            placeholder='Digite o nome'
-            inputName='name'
-            errorInput={forms.name ? false : errorInput}
-            defaultValue={!editClient ? "" : cliente.name}
+            variant='outlined'
+            style={{ marginBottom: "14px" }}
+            error={!!errors?.name}
+            InputLabelProps={{ shrink: true }}
+            {...register("name", { required: true })}
+            helperText={
+              errors?.name?.type === "required" && "Nome é obrigatório"
+            }
           />
-
-          <Input
+          <TextField
             label='E-mail*'
-            width={460}
             type='email'
-            id='email'
-            placeholder='Digite seu e-mail'
-            inputName='email'
-            errorInput={forms.email ? false : errorInput}
-            defaultValue={!editClient ? "" : cliente.email}
+            variant='outlined'
+            style={{ marginBottom: "14px" }}
+            error={!!errors?.email}
+            InputLabelProps={{ shrink: true }}
+            {...register("email", { required: true })}
+            helperText={
+              errors?.email?.type === "required" && "E-mail é obrigatório"
+            }
           />
 
-          <div className='inputs-numbers'>
-            <Input
+          <Box className='inputs-numbers'>
+            <TextField
+              fullWidth
               label='CPF*'
-              width={210}
               type='text'
-              id='cpf'
-              placeholder='Digite o CPF'
-              inputName='cpf'
-              errorInput={forms.cpf ? false : errorInput}
-              defaultValue={!editClient ? "" : cliente.cpf}
+              variant='outlined'
+              placeholder="'999.999.999-99'"
+              style={{ marginBottom: "14px" }}
+              error={!!errors?.cpf}
+              InputLabelProps={{ shrink: true }}
+              {...register("cpf", { required: true, maxLength: 11 })}
+              helperText={
+                errors?.cpf?.type === "required" && "CPF é obrigatório"
+              }
             />
-
-            <Input
+            <TextField
+              fullWidth
               label='Telefone*'
-              width={210}
               type='text'
-              id='phone'
-              placeholder='Digite o telefone'
-              inputName='phone'
-              errorInput={forms.phone ? false : errorInput}
-              defaultValue={!editClient ? "" : cliente.phone}
+              variant='outlined'
+              style={{ marginBottom: "14px" }}
+              error={!!errors?.phone}
+              InputLabelProps={{ shrink: true }}
+              {...register("phone", { required: true })}
+              helperText={
+                errors?.phone?.type === "required" && "Telefone é obrigatório"
+              }
             />
-          </div>
+          </Box>
 
-          <Input
+          <TextField
             label='Endereço'
-            width={460}
             type='text'
-            id='address'
-            placeholder='Digite o endereço'
-            inputName='address'
-            defaultValue={!editClient ? "" : cliente.address}
+            variant='outlined'
+            style={{ marginBottom: "14px" }}
+            InputLabelProps={{ shrink: true }}
+            {...register("address")}
           />
-
-          <Input
+          <TextField
             label='Complemento'
-            width={460}
             type='text'
-            id='complement'
-            placeholder='Digite o complemento'
-            inputName='complement'
-            defaultValue={!editClient ? "" : cliente.complement}
+            variant='outlined'
+            style={{ marginBottom: "14px" }}
+            InputLabelProps={{ shrink: true }}
+            {...register("complement")}
           />
 
-          <div className='inputs-numbers'>
-            <Input
-              label='CEP'
-              width={210}
+          <Box className='inputs-numbers'>
+            <TextField
+              fullWidth
+              label='Cep'
               type='text'
-              id='cep'
-              placeholder='Digite o CEP'
-              inputName='cep'
-              defaultValue={!editClient ? "" : cliente.cep}
+              variant='outlined'
+              style={{ marginBottom: "14px" }}
+              InputLabelProps={{ shrink: true }}
+              {...register("cep")}
             />
-
-            <Input
+            <TextField
+              fullWidth
               label='Bairro'
-              width={210}
               type='text'
-              id='neighborhood'
-              placeholder='Digite o bairro'
-              inputName='neighborhood'
-              defaultValue={!editClient ? "" : cliente.street}
+              variant='outlined'
+              style={{ marginBottom: "14px" }}
+              InputLabelProps={{ shrink: true }}
+              {...register("street")}
             />
-          </div>
+          </Box>
 
-          <div className='inputs-numbers'>
-            <Input
+          <Box className='inputs-numbers'>
+            <TextField
+              fullWidth
               label='Cidade'
-              width={210}
               type='text'
-              id='city'
-              placeholder='Digite a cidade'
-              inputName='city'
-              defaultValue={!editClient ? "" : cliente.city}
+              variant='outlined'
+              style={{ marginBottom: "14px" }}
+              InputLabelProps={{ shrink: true }}
+              {...register("city")}
             />
-
-            <Input
-              label='UF'
-              width={210}
+            <TextField
+              fullWidth
+              label='Estado'
               type='text'
-              id='uf'
-              placeholder='Digite a UF'
-              inputName='uf'
-              defaultValue={!editClient ? "" : cliente.state}
+              variant='outlined'
+              style={{ marginBottom: "14px" }}
+              InputLabelProps={{ shrink: true }}
+              {...register("state")}
             />
-          </div>
+          </Box>
 
           <div className='btn-area'>
             <button
@@ -405,16 +231,10 @@ export default function ModalClient({ showClients, editClient }) {
             >
               Cancelar
             </button>
-
             <BasicButtons variant='contained' action='Aplicar' width={220} />
           </div>
         </form>
       </div>
-      {warning.active && (
-        <Alert variant='filled' severity={warning.type} sx={alert}>
-          {warning.message}
-        </Alert>
-      )}
     </div>
   );
 }

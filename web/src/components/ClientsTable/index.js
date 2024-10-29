@@ -23,12 +23,12 @@ export default function ClientsTable({ query, orderClients }) {
     setShowModal,
     formCharge,
     setFormCharge,
-    setCliente,
+    setClient,
     clientsList,
   } = useContext(UserContext);
 
   function handleClientDetail(client) {
-    setCliente(client);
+    setClient(client);
     setCurrentClient(client);
     navigate("/detail");
   }
@@ -44,7 +44,7 @@ export default function ClientsTable({ query, orderClients }) {
     localShowModal.addCharge = true;
     setShowModal({ ...localShowModal });
 
-    setCliente(client);
+    setClient(client);
   };
 
   function handleGetClients() {

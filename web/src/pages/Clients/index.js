@@ -43,6 +43,7 @@ const Clients = () => {
     setClientsList,
     order,
     setOrder,
+    user,
   } = useContext(UserContext);
 
   function orderClients() {
@@ -103,7 +104,7 @@ const Clients = () => {
         <span className='header-line'>Clientes</span>
         <div className='header__user'>
           <img className='header__avatar' src={Avatar} alt='Avatar' />
-          <span className='header__username'>{getItem("name")}</span>
+          <span className='header__username'>{user.name}</span>
           <img
             className='cursor-pointer'
             src={ArrowDown}
@@ -154,7 +155,6 @@ const Clients = () => {
                 type='text'
                 placeholder='Pesquisa'
                 value={query}
-                defaultValue=''
                 onChange={(e) => setQuery(e.target.value)}
                 endAdornment={<SearchIcon />}
                 className='input-clients__section'
