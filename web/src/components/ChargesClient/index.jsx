@@ -11,7 +11,7 @@ import IconDelete from "../../assets/icon-excluir.svg";
 import NoResults from "../../assets/no-results.svg";
 import orderIcon from "../../assets/orderIcon.svg";
 import UserContext from "../../context/userContext";
-import dateToStringConverter from "../../utils/funcoes";
+import { dateToStringConverter } from "../../utils/functions";
 import ModalCharge from "../ModalCharge";
 import ModalWarning from "../ModalWarning";
 

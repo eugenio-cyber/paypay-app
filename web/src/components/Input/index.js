@@ -41,14 +41,14 @@ const Input = ({
             <img
               alt='Ícone de senha'
               src={openedEye}
-              className='eyeIcon'
+              className='eye-icon'
               onClick={() => setEyeState(false)}
             />
           ) : (
             <img
               alt='ícone de senha'
               src={crossedEye}
-              className='eyeIcon'
+              className='eye-icon'
               onClick={() => setEyeState(true)}
             />
           )}

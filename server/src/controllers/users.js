@@ -26,7 +26,7 @@ const userLogin = async (req, res) => {
       .first();
 
     if (!result) {
-      return messages(res, 404, "e-mail ou senha inválidos!");
+      return messages(res, 404, "E-mail ou senha inválidos!");
     }
 
     const isValid = await bcrypt.compare(password, result.password);
@@ -41,6 +41,8 @@ const userLogin = async (req, res) => {
       expiresIn: "8h",
     });
 
+    delete user.id;
+
     messages(res, 200, { user, token });
   } catch (error) {
     messages(res, 400, error.message);
@@ -48,12 +50,13 @@ const userLogin = async (req, res) => {
 };
 
 const getUserProfile = async (req, res) => {
-  const { id } = req.user;
+  const { email } = req.user;
   try {
     const profile = await queryBuilder("users")
-      .where({ id })
-      .select("id", "name", "cpf", "email", "phone")
+      .where({ email })
+      .select("name", "cpf", "email", "phone")
       .first();
+
     return messages(res, 200, profile);
   } catch (error) {
     return messages(res, 404, "Erro ao buscar perfil!");
@@ -77,22 +80,22 @@ const createUser = async (req, res) => {
 };
 
 const updateUser = async (req, res) => {
-  const { id } = req.user;
-  const data = req.body;
+  const { oldEmail, ...data } = req.body;
   const salts = await bcrypt.genSalt(10);
+  const user = await queryBuilder("users")
+    .select("*")
+    .where({ email: oldEmail })
+    .first();
 
   try {
-    if (data.password) {
-      const search = await queryBuilder("users")
-        .select("*")
-        .where({ id })
-        .first();
+    if (data.password && data.password !== user.password) {
       const hash = await bcrypt.hash(data.password, salts);
-      const result = await bcrypt.compare(hash, search.password);
+      const result = await bcrypt.compare(hash, user.password);
+
       if (!result) data.password = hash;
     }
 
-    const result = await queryBuilder("users").update(data).where({ id });
+    await queryBuilder("users").update(data).where({ email: oldEmail });
 
     return messages(res, 200, "Usuário atualizado com sucesso");
   } catch (error) {

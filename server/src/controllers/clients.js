@@ -22,15 +22,13 @@ const registerClient = async (req, res) => {
 };
 
 const updateClient = async (req, res) => {
-  const { id } = req.params;
-  const client = req.body;
-
-  if (!id) {
-    messages(res, 400, "O ID do cliente é obrigatório");
-  }
+  const { oldEmail, ...client } = req.body;
 
   try {
-    await queryBuilder("clients").where({ id }).update(client).returning("*");
+    await queryBuilder("clients")
+      .where({ email: oldEmail })
+      .update(client)
+      .returning("*");
 
     return messages(res, 204, "Atualizado com sucesso!");
   } catch (error) {

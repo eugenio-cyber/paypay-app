@@ -9,16 +9,25 @@ import { useForm } from "react-hook-form";
 import UserContext from "../../context/userContext";
 import api from "../../services/api";
 import BasicButtons from "../Button";
+import { cpfMask, phoneMask, cepMask } from "../../utils/functions";
 
 export default function ModalClient({ editClient }) {
-  const { getItem, setShowModal, client, setClient, showClients } =
-    useContext(UserContext);
+  const {
+    getItem,
+    setShowModal,
+    client,
+    setClient,
+    showClients,
+    setWarning,
+    warning,
+  } = useContext(UserContext);
 
   const {
     register,
     handleSubmit,
     watch,
     reset,
+    setValue,
     formState: { errors },
   } = useForm();
 
@@ -64,20 +73,34 @@ export default function ModalClient({ editClient }) {
     }
   };
 
-  async function handleEditClient(data) {
+  const handleEditClient = async (data) => {
     try {
-      await api.patch(`/clients/${client.id}`, data, {
-        headers: {
-          Authorization: "Bearer " + getItem("token"),
+      await api.patch(
+        "/clients",
+        {
+          ...data,
+          cpf: data.cpf.replace(/\D/g, ""),
+          phone: data.phone.replace(/\D/g, ""),
+          cep: data.cep.replace(/\D/g, ""),
+          oldEmail: client.email,
         },
-      });
+        {
+          headers: {
+            Authorization: "Bearer " + getItem("token"),
+          },
+        }
+      );
 
       setClient({ ...data, id: client.id });
       setShowModal(false);
     } catch (error) {
-      console.error(error);
+      setWarning({ ...warning, active: true, message: error.response.data });
+
+      setTimeout(() => {
+        setWarning({ ...warning, active: false, message: "" });
+      }, 4000);
     }
-  }
+  };
 
   useEffect(() => {
     if (watchCep?.length === 8) handleCep();
@@ -85,7 +108,13 @@ export default function ModalClient({ editClient }) {
   }, [watchCep]);
 
   useEffect(() => {
-    if (editClient) reset(client);
+    if (editClient)
+      reset({
+        ...client,
+        cpf: cpfMask(`${client.cpf}`),
+        phone: phoneMask(`${client.phone}`),
+        cep: cepMask(`${client.cep}`),
+      });
   }, []);
 
   return (
@@ -140,14 +169,18 @@ export default function ModalClient({ editClient }) {
               label='CPF*'
               type='text'
               variant='outlined'
-              placeholder="'999.999.999-99'"
               style={{ marginBottom: "14px" }}
               error={!!errors?.cpf}
               InputLabelProps={{ shrink: true }}
-              {...register("cpf", { required: true, maxLength: 11 })}
-              helperText={
-                errors?.cpf?.type === "required" && "CPF é obrigatório"
-              }
+              {...register("cpf", { required: true, minLength: 11 })}
+              onChange={(e) => {
+                setValue("cpf", cpfMask(e.target.value));
+              }}
+              helperText={() => {
+                if (errors?.cpf?.type === "required")
+                  return "CPF é obrigatório";
+                if (errors?.cpf?.type === "minLength") return "CPF inválido";
+              }}
             />
             <TextField
               fullWidth
@@ -158,6 +191,9 @@ export default function ModalClient({ editClient }) {
               error={!!errors?.phone}
               InputLabelProps={{ shrink: true }}
               {...register("phone", { required: true })}
+              onChange={(e) => {
+                setValue("phone", phoneMask(e.target.value));
+              }}
               helperText={
                 errors?.phone?.type === "required" && "Telefone é obrigatório"
               }
@@ -188,8 +224,13 @@ export default function ModalClient({ editClient }) {
               type='text'
               variant='outlined'
               style={{ marginBottom: "14px" }}
+              error={!!errors?.cep}
               InputLabelProps={{ shrink: true }}
-              {...register("cep")}
+              {...register("cep", { minLength: 9 })}
+              onChange={(e) => {
+                setValue("cep", cepMask(e.target.value));
+              }}
+              helperText={errors?.cep?.type === "minLength" && "Cep inválido"}
             />
             <TextField
               fullWidth

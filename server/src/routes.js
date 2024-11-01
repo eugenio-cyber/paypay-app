@@ -19,11 +19,7 @@ routes.get("/clients/:id", clients.detailCLient);
 routes.get("/clients", clients.listClients);
 routes.get("/panel/clients", clients.panelClients);
 routes.post("/clients", filters.verifyOnRegisterClient, clients.registerClient);
-routes.patch(
-  "/clients/:id",
-  filters.verifyOnUpdateClient,
-  clients.updateClient
-);
+routes.patch("/clients", filters.verifyOnUpdateClient, clients.updateClient);
 routes.delete("/clients/:id", clients.deleteClient);
 
 routes.get("/status/charges", charges.filterCharges);
